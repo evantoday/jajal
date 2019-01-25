@@ -11,7 +11,7 @@ func main() {
             "Message": "Sayang Intan Jane",
         }
 
-        var t, err = template.ParseFiles("/template/template.html")
+        var t, err = template.ParseFiles("template/template.html")
         if err != nil {
             fmt.Println(err.Error())
             return
