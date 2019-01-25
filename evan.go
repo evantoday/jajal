@@ -1,16 +1,25 @@
 package main
 
-import (
-    "fmt"
-    "log"
-    "net/http"
-)
-
-func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Hi there, I love Golang hahaha%s!", r.URL.Path[1:])
-}
+import "fmt"
+import "html/template"
+import "net/http"
 
 func main() {
-    http.HandleFunc("/", handler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        var data = map[string]string{
+            "Name":    "Evan",
+            "Message": "Sayang Intan Jane",
+        }
+
+        var t, err = template.ParseFiles("/template/template.html")
+        if err != nil {
+            fmt.Println(err.Error())
+            return
+        }
+
+        t.Execute(w, data)
+    })
+
+    fmt.Println("starting web server at http://localhost:8080/")
+    http.ListenAndServe(":8080", nil)
 }
